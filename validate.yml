@@ -6,11 +6,14 @@ inputs:
     description: "Path to the local source files to deploy."
     type: string
     default: force-app/**
-  sfUser
+  sfUser:
     description: "The Org User"
     type: string
     required: true
-
+  sfConsumerKey:   
+    description: "The Org's Github Connect App Consumer Key"
+    type: string
+    required: true
 on:
   pull_request:
       paths: ${{ inputs.path }}
@@ -24,5 +27,6 @@ jobs:
         uses: ricardo100671/salesforce_cicd/oauthdeploy@main
         with:
           sfUser: ${{ inputs.sfUser }}
+          sfConsumerKey: ${{ inputs.sfConsumerKey }}
           dryRun: true
           path: ${{ inputs.path }}

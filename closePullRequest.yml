@@ -13,8 +13,12 @@ inputs:
     description: "Path to the local source files to deploy."
     type: string
     default: force-app/**
-  sfUser
+  sfUser:
     description: "The Org User"
+    type: string
+    required: true
+  sfConsumerKey:
+    description: "The Org's Github Connect App Consumer Key"
     type: string
     required: true
 
@@ -22,6 +26,7 @@ inputs:
 on:
   pull_request:
     types: [ closed ]
+
 jobs:
   merge_job:
     # this job will only run if the PR has been merged
@@ -35,6 +40,7 @@ jobs:
         dryRun: false
         testLevel: NoTestRun
         sfUser: ${{ inputs.sfUser }}
+        sfConsumerKey: ${{ inputs.sfConsumerKey }}
   close_job:
     # this job will only run if the PR has been closed without being merged
     if: github.event.pull_request.merged == false

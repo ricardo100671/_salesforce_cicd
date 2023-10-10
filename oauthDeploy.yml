@@ -26,6 +26,10 @@ inputs:
     description: "The Org User"
     type: string
     required: true
+  sfConsumerKey
+    description: "The Org's Github Connect App Consumer Key"
+    type: string
+    required: true
 
 runs:
   using: "composite"
@@ -39,8 +43,8 @@ runs:
     - name: Login with OAut jwt
       shell: bash
       run: 
-        echo "${{ secrets.certPrivateKey }}" > server.key
-        sf force auth jwt grant --client-id=${{ secrets.sfConsumerKey }} --jwt-key-file=server.key --username=${{ inputs.sfUser }} --set-default-dev-hub
+        echo "${{ secrets.CERT_PRIVATE_KEY }}" > server.key
+        sf force auth jwt grant --client-id=${{ inputs.sfConsumerKey }} --jwt-key-file=server.key --username=${{ inputs.sfUser }} --set-default-dev-hub
 
     - name: Generate package.xml
       shell: bash
