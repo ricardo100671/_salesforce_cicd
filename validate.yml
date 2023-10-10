@@ -1,9 +1,19 @@
 name: Validate Pull Request
+description: 'Validates a deployment without applying changes using SF_CONSUMER_KEY and CERT_PRIVATE_KEY stored in repository secrets.'
+
+inputs:
+  path:
+    description: "Path to the local source files to deploy."
+    type: string
+    default: force-app/**
+  sfUser
+    description: "The Org User"
+    type: string
+    required: true
 
 on:
   pull_request:
-      paths:
-      - 'force-app/**'
+      paths: ${{ inputs.path }}
 
 jobs:
   validate:
@@ -11,7 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Validating
-        uses: jawills/sf-deploy@v1.0
+        uses: ricardo100671/salesforce_cicd/oauthdeploy@main
         with:
-          SFDX_AUTH_URL: ${{ secrets.SFDX_DEVHUB_AUTHURL }}
-          DRY_RUN: true
+          sfUser: ${{ inputs.sfUser }}
+          dryRun: true
+          path: ${{ inputs.path }}
