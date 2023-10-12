@@ -41,7 +41,7 @@ runs:
       run: 
         echo Loggin in
         echo "${{ secrets.CERT_PRIVATE_KEY }}" > server.key
-        sf force auth jwt grant --client-id=${{ inputs.sfConsumerKey }} --jwt-key-file=server.key --username=${{ secrets.SF_USER }}
+        sf force auth jwt grant --client-id=${{ inputs.sfConsumerKey }} --jwt-key-file=server.key --username=${{ inputs.sfUser }}
 
     - name: Generate package.xml
       shell: bash
@@ -62,10 +62,10 @@ runs:
         if [ "${{ inputs.dryRun }}" = "true" ]; then
           deployFlags+=( --dry-run )
         fi
-        sf project deploy start "${deployFlags[@]}" -u ${{ secrets.SF_USER }}
+        sf project deploy start "${deployFlags[@]}" -u ${{ inputs.sfUser }}
 
     - name: Logout
       shell: bash
       run: 
-        sfdx force auth logout -u ${{ secrets.SF_USER }}
+        sfdx force auth logout -u ${{ inputs.sfUser }}
         echo Logged out

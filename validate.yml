@@ -26,6 +26,7 @@ jobs:
       - name: Validating
         uses: ricardo100671/_salesforce_cicd/oauthdeploy@main
         with:
+          sfUser: ${{ inputs.sfUser }}
           sfConsumerKey: ${{ inputs.sfConsumerKey }}
           dryRun: true
           path: ${{ inputs.path }}

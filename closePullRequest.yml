@@ -39,6 +39,7 @@ jobs:
       with:
         dryRun: false
         testLevel: NoTestRun
+        sfUser: ${{ inputs.sfUser }}
         sfConsumerKey: ${{ inputs.sfConsumerKey }}
   close_job:
     # this job will only run if the PR has been closed without being merged
