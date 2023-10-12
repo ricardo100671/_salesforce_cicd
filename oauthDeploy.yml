@@ -44,7 +44,7 @@ runs:
       shell: bash
       run: 
         echo "${{ secrets.CERT_PRIVATE_KEY }}" > server.key
-        sf force auth jwt grant --client-id=${{ inputs.sfConsumerKey }} --jwt-key-file=server.key --username=${{ inputs.sfUser }} --set-default-dev-hub
+        sf force auth jwt grant --client-id=${{ inputs.sfConsumerKey }} --jwt-key-file=server.key --username=${{ inputs.sfUser }}
 
     - name: Generate package.xml
       shell: bash
@@ -65,3 +65,7 @@ runs:
         fi
         sf project deploy start "${deployFlags[@]}" -u ${{ inputs.sfUser }}
 
+    - name: Logout
+      shell: bash
+      run: 
+        sfdx force auth logout -u ${{ inputs.sfUser }}
