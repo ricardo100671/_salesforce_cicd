@@ -24,9 +24,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Validating
-        uses: ricardo100671/salesforce_cicd/oauthdeploy@main
+        uses: ricardo100671/_salesforce_cicd/oauthdeploy@main
         with:
-          sfUser: ${{ inputs.sfUser }}
           sfConsumerKey: ${{ inputs.sfConsumerKey }}
           dryRun: true
           path: ${{ inputs.path }}

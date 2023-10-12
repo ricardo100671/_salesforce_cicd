@@ -35,11 +35,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Deploy
-      uses: ricardo100671/salesforce_cicd/oauthdeploy@main
+      uses: ricardo100671/_salesforce_cicd/oauthdeploy@main
       with:
         dryRun: false
         testLevel: NoTestRun
-        sfUser: ${{ inputs.sfUser }}
         sfConsumerKey: ${{ inputs.sfConsumerKey }}
   close_job:
     # this job will only run if the PR has been closed without being merged

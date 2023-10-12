@@ -22,10 +22,6 @@ inputs:
     description: "Path to the local source files to deploy."
     type: string
     default: force-app/**
-  sfUser
-    description: "The Org User"
-    type: string
-    required: true
   sfConsumerKey
     description: "The Org's Github Connect App Consumer Key"
     type: string
@@ -43,17 +39,20 @@ runs:
     - name: Login with OAut jwt
       shell: bash
       run: 
+        echo Loggin in
         echo "${{ secrets.CERT_PRIVATE_KEY }}" > server.key
-        sf force auth jwt grant --client-id=${{ inputs.sfConsumerKey }} --jwt-key-file=server.key --username=${{ inputs.sfUser }}
+        sf force auth jwt grant --client-id=${{ inputs.sfConsumerKey }} --jwt-key-file=server.key --username=${{ secrets.SF_USER }}
 
     - name: Generate package.xml
       shell: bash
       run: |
+        echo Generating Manifest
         sf project generate manifest --source-dir ${{ inputs.path }} --output-dir manifest     
 
     - name: Deploy to Environment
       shell: bash
       run: |
+        echo Deploying
         deployFlags=(
             --manifest manifest/package.xml
             --wait 30
@@ -63,9 +62,10 @@ runs:
         if [ "${{ inputs.dryRun }}" = "true" ]; then
           deployFlags+=( --dry-run )
         fi
-        sf project deploy start "${deployFlags[@]}" -u ${{ inputs.sfUser }}
+        sf project deploy start "${deployFlags[@]}" -u ${{ secrets.SF_USER }}
 
     - name: Logout
       shell: bash
       run: 
-        sfdx force auth logout -u ${{ inputs.sfUser }}
+        sfdx force auth logout -u ${{ secrets.SF_USER }}
+        echo Logged out
