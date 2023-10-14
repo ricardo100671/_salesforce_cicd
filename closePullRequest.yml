@@ -35,7 +35,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Deploy
-      uses: ricardo100671/_salesforce_cicd/oauthdeploy@main
+      uses: oauthdeploy.yml
       with:
         dryRun: false
         testLevel: NoTestRun

@@ -1,5 +1,5 @@
 name: Validate Pull Request
-description: 'Validates a deployment without applying changes using SF_CONSUMER_KEY and CERT_PRIVATE_KEY stored in repository secrets.'
+description: 'Validates a deployment without applying changes using CERT_PRIVATE_KEY stored in repository secrets.'
 
 inputs:
   path:
@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Validating
-        uses: ricardo100671/_salesforce_cicd/oauthdeploy@main
+        uses: oauthdeploy.yml
         with:
           sfUser: ${{ inputs.sfUser }}
           sfConsumerKey: ${{ inputs.sfConsumerKey }}
